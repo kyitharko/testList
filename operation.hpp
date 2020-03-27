@@ -14,7 +14,7 @@ class operation{
            ~operation();
            void run(mainList* m, std::string* uri);
            std::string getComponent(std::string uri, size_t iComponentStart, size_t iComponentEnd);
-
+           std::string operation::getEntry(mainList* m);
 
 };
 

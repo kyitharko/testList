@@ -36,7 +36,6 @@ void operation::run(mainList* m, std::string* uri, std::list<int>::iterator oute
            delete e_list;
       }
       m->push_back(entry_list_outer);
-      ++outer_it;
 }
 
 
@@ -45,3 +44,12 @@ std::string operation::getComponent(std::string uri, size_t iComponentStart, siz
        return uri.substr(iComponentStart, iComponentEnd - iComponentStart);
 }
 
+
+std::string operation::getEntry(mainList* m)
+{
+    for(outer_it=m.begin(); outer_it != m.end(); ++outer_it)
+        entryList *e_list;
+        e_list = outer_it;
+        for(inner_it=e_list.begin(); inner_it != e_list.end(); ++inner_it)
+             std::cout << "Component is >>>>> " << *inner_it << std::endl;
+}
