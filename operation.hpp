@@ -12,9 +12,9 @@ class operation{
 
            operation();
            ~operation();
-           void run(mainList* m, std::string* uri);
+           entryList* run(std::string &uri);
            std::string getComponent(std::string uri, size_t iComponentStart, size_t iComponentEnd);
-           std::string operation::getEntry(mainList* m);
+           std::string getEntry(entryList* e_list);
 
 };
 

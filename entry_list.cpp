@@ -8,11 +8,6 @@ void entryList::setEntryList(int passed_id, std::string passed_name)
 {
      id = passed_id;
      name = passed_name;
-     std::cout << "passed_id is: " << passed_id << std::endl;
-     std::cout << "passed_name comp is: " << passed_name << std::endl;
-     std::cout << "id is: " << id << std::endl;
-     std::cout << "name comp is: " << name << std::endl;
-
 }
 
 
@@ -20,3 +15,30 @@ void entryList::push_back(entryList* e_list){
     entry_list.push_back(e_list);
 }
 
+
+std::list<entryList*>::iterator entryList::begin()
+{
+    std::list<entryList*>::iterator it;
+    it = entry_list.begin();
+    return it;
+}
+
+
+std::list<entryList*>::iterator entryList::end()
+{
+    std::list<entryList*>::iterator it;
+    it = entry_list.end();
+    return it;
+}
+
+
+int entryList::getId()
+{
+   return id;
+}
+
+
+std::string entryList::getName()
+{
+   return name;
+}

@@ -11,7 +11,8 @@ class mainList{
             mainList();
             ~mainList();
             void push_back(entryList* e_list);
-
+            std::list<entryList*>::iterator begin();
+            std::list<entryList*>::iterator end();
      private:
             std::list<entryList*>main_list;
 };

@@ -6,50 +6,45 @@
 operation::operation(){}
 operation::~operation(){}
 
-void operation::run(mainList* m, std::string* uri, std::list<int>::iterator outer_it)
+entryList* operation::run(std::string &uri)
 {
      entryList* entry_list_outer = new entryList();
      size_t iComponentStart = 0;
      size_t iComponentEnd = 0;
      std::string str;
-     std::string temp;
-     temp = *uri;
-     std::list<int>::iterator inner_it;
-     iComponentEnd = uri->find("/", iComponentStart + 1);
-     while (iComponentStart < uri->size()) {
-           iComponentEnd = uri->find("/", iComponentStart + 1);
+     std::list<entryList*>::iterator inner_it;
+     int i = 0;
+     iComponentEnd = uri.find("/", iComponentStart + 1);
+     while (iComponentStart < uri.size()) {
+           iComponentEnd = uri.find("/", iComponentStart + 1);
            if (iComponentEnd == std::string::npos)
-              iComponentEnd = uri->size();
-           str = getComponent(temp, iComponentStart + 1, iComponentEnd);
+              iComponentEnd = uri.size();
+           str = getComponent(uri, iComponentStart + 1, iComponentEnd);
            iComponentStart = iComponentEnd;
-           std::cout << "got component >>>> " << str << std::endl;
            entryList *e_list;
            e_list = new entryList();
            e_list->setEntryList(i, str);
-           std::cout << "setEntryList finisted!!!" << std::endl;
            i++;
-           std::cout << "this is i: " << i << std::endl;
            entry_list_outer->push_back(e_list);
            inner_it = e_list->begin();
            ++inner_it;
-           std::cout << "pushed back to list" << std::endl;
-           delete e_list;
+           //delete e_list;
       }
-      m->push_back(entry_list_outer);
+     return entry_list_outer;
 }
 
 
 std::string operation::getComponent(std::string uri, size_t iComponentStart, size_t iComponentEnd)
 {
-       return uri.substr(iComponentStart, iComponentEnd - iComponentStart);
+     return uri.substr(iComponentStart, iComponentEnd - iComponentStart);
 }
 
 
-std::string operation::getEntry(mainList* m)
+std::string operation::getEntry(entryList *e_list)
 {
-    for(outer_it=m.begin(); outer_it != m.end(); ++outer_it)
-        entryList *e_list;
-        e_list = outer_it;
-        for(inner_it=e_list.begin(); inner_it != e_list.end(); ++inner_it)
-             std::cout << "Component is >>>>> " << *inner_it << std::endl;
+     std::list<entryList*>::iterator inner_it;
+     for(inner_it=e_list->begin(); inner_it != e_list->end(); ++inner_it)
+     {
+         entryList* entry_tmp = *inner_it;
+     }
 }
