@@ -12,7 +12,8 @@ class operation{
 
            operation();
            ~operation();
-           entryList* run(std::string &uri);
+           entryList* trapdoor(std::string &uri);
+           entryList* peks(std::string &uri);
            std::string getComponent(std::string uri, size_t iComponentStart, size_t iComponentEnd);
            std::string getEntry(entryList* e_list);
 
