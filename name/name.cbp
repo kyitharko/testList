@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="name" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/name" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="/usr/local/lib/libpbc.so" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/name" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="../base64.cpp" />
+		<Unit filename="../base64.hpp" />
+		<Unit filename="../entry_list.cpp" />
+		<Unit filename="../entry_list.hpp" />
+		<Unit filename="../listTest.cpp" />
+		<Unit filename="../main_list.cpp" />
+		<Unit filename="../main_list.hpp" />
+		<Unit filename="../operation.cpp" />
+		<Unit filename="../operation.hpp" />
+		<Unit filename="../peks.cpp" />
+		<Unit filename="../peks.hpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
