@@ -10,10 +10,10 @@
 #include <fstream>
 #include <iostream>
 
-#include "peks.h"
+#include "peks.hpp"
 
-void sha512(const char *word, int word_size, 
-		char hashed_word[SHA512_DIGEST_LENGTH*2+1]) 
+void sha512(const char *word, int word_size,
+		char hashed_word[SHA512_DIGEST_LENGTH*2+1])
 {
 	int i;
 	unsigned char digest[SHA512_DIGEST_LENGTH];
