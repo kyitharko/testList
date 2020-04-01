@@ -38,7 +38,7 @@ class operation{
           element_t Tw;
 
           /* H1(W) */
-          element_t H1_W1;
+          element_t H1_W2;
           pbc_param_t param;
           FILE *fptr;
           pairing_t pairing;
