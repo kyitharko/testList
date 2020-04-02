@@ -10,7 +10,7 @@ class entryList{
       public:
             entryList();
             ~entryList();
-            void setEntryList(int passed_id, std::string passed_name);
+            void setEntryList(int passed_id, element_t Tw_input);
             void push_back(entryList* e_list);
 
             int getId();
@@ -20,6 +20,7 @@ class entryList{
       private:
            int id;
            std::string name;
+           element_t Tw;
            std::list<entryList*>entry_list;
 
 };

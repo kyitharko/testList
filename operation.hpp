@@ -4,6 +4,7 @@
 #include <string>
 #include <list>
 #include <fstream>
+#include <memory>
 
 #include "main_list.hpp"
 #include "new_peks.hpp"
@@ -14,12 +15,13 @@ class operation{
 
            operation();
            ~operation();
-           entryList* trapdoor_opt(std::string *uri);
-           entryList* peks(std::string *uri);
+           entryList* trapdoor_opt(std::string *uri, std::unique_ptr <peksOpt> &p_opt);
+           std::string peks(std::string *uri, std::unique_ptr <peksOpt> &p_opt);
            std::string getComponent(std::string *uri, size_t iComponentStart, size_t iComponentEnd);
            std::string getEntry(entryList* e_list);
-           //key* key_gen();
-           char h1_w(element_t *H1_W1, char *W1);
+           void key_gen(std::unique_ptr <peksOpt> &p_opt);
+           void h1_w(const char *W1, std::unique_ptr <peksOpt> &p_opt);
+           entryList* createPeksList(std::string *uri);
 
      private:
           entryList* entry_list_outer = new entryList();
@@ -38,10 +40,13 @@ class operation{
           element_t Tw;
 
           /* H1(W) */
-          element_t H1_W2;
+          element_t H1_W;
           pbc_param_t param;
           FILE *fptr;
           pairing_t pairing;
+          std::string peks_str;
+          int len;
+
 
 };
 

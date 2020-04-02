@@ -4,10 +4,10 @@
 entryList::entryList(){}
 entryList::~entryList(){}
 
-void entryList::setEntryList(int passed_id, std::string passed_name)
+void entryList::setEntryList(int passed_id, element_t Tw_input)
 {
      id = passed_id;
-     name = passed_name;
+     element_set(Tw, Tw_input);
 }
 
 

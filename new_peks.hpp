@@ -45,6 +45,8 @@ class peksOpt
 
         void set_B(char* addr_B);
 
+        void set_peks(element_t interest_peks);
+
         char *getB();
 
         int Test(element_t* g, element_t *h, element_t* peks, char* B, element_t* Tw, pairing_t pairing);

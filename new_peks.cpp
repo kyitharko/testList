@@ -191,6 +191,11 @@ void peksOpt::set_B(char* addr_B)
     B = addr_B;
 }
 
+void peksOpt::set_peks(element_t interest_peks)
+{
+    element_set(peks, interest_peks);
+}
+
 char *peksOpt::getB()
 {
     return B;
