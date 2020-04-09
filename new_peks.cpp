@@ -84,58 +84,63 @@ void peksOpt::KeyGen(pbc_param_t param, pairing_t pairing)
 
 }
 
-void peksOpt::PEKS(element_t* g, element_t* h, pairing_t* pairing, element_t* H1_W, int bitswanted)
+void peksOpt::PEKS(element_t g, element_t h, pairing_t pairing, element_t H1_W, int bitswanted)
 {
-	char *H2_t = B;
+	//char *H2_t = B;
 	element_t r, hR, t;
 
 	/* hR = h^r */
-	element_init_Zr(r, *pairing);
+	element_init_Zr(r, pairing);
 	element_random(r);
-	element_init_G1(hR, *pairing);
-	element_pow_zn(hR, *h, r);
+	element_init_G1(hR, pairing);
+	element_pow_zn(hR, h, r);
 
 	/* t = hasedW1 X hR */
-	element_init_GT(t, *pairing);
-	pairing_apply(t, *H1_W, hR, *pairing);
+	element_init_GT(t, pairing);
+	pairing_apply(t, H1_W, hR, pairing);
 
 	/* gR = g^r */
-	element_init_G1(peks, *pairing);
-	element_pow_zn(peks, *g, r);
+	element_init_G1(peks, pairing);
+	element_pow_zn(peks, g, r);
 
 	/* H2(t) */
 	char *char_t = (char*)malloc(sizeof(char)*element_length_in_bytes(t));
 	char *buffer = (char*)malloc(sizeof(char)*SHA512_DIGEST_LENGTH*2+1);
 	element_snprint(char_t, element_length_in_bytes(t), t);
 	sha512(char_t, element_length_in_bytes(t), buffer);
-	get_n_bits(buffer, H2_t, bitswanted);
+	get_n_bits(buffer, B, bitswanted);
 
 	free(char_t); char_t = NULL;
 	free(buffer); buffer = NULL;
 }
 
-void peksOpt::Trapdoor(pairing_t *pairing, element_t *alpha, element_t *H1_W)
+void peksOpt::Trapdoor(pairing_t pairing, element_t alpha, element_t H1_W)
 {
 	/* H1(W)^α = hashedW1^alpha */
-	element_init_G1(Tw, *pairing);
-	element_pow_zn(Tw, *H1_W, *alpha);
+	element_init_G1(Tw, pairing);
+	element_pow_zn(Tw, H1_W, alpha);
 }
 
-int peksOpt::Test(element_t* g, element_t *h, element_t* peks, char* B, element_t* Tw, pairing_t pairing)
+int peksOpt::Test(element_t g, element_t h, element_t peks, char* B, element_t Tw, pairing_t pairing)
 {
 	/* PEKS for W2S */
 
 	/* PEKS = [A, B] i.e. A=g^r and B=H2(t) */
-	element_t temp,r;
+
+        //std::cout << std::endl << "%#%#%#%#%#%#%#%%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#" << std::endl;
+        //element_printf("peks value is >>> %B", peks);
+        //std::cout << std::endl << "%#%#%#%#%#%#%#%%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#%#" << std::endl;
+	element_t temp, r;
+	element_init_Zr(r, pairing);
 
 	double P = mpz_get_d(pairing->r);
-//#if defined(DEBUG)
+#if defined(DEBUG)
 	printf("P %lf\n", P);
-//#endif
+#endif
 	int nlogP = log2(P);
-//#if defined(DEBUG)
+#if defined(DEBUG)
 	printf("log2(P) %d\n", nlogP);
-//#endif
+#endif
 
 	/* PEKS(key_pub, W2) */
 	//B = (char*)malloc(sizeof(char)*(nlogP));
@@ -145,20 +150,17 @@ int peksOpt::Test(element_t* g, element_t *h, element_t* peks, char* B, element_
 	element_printf("A %B\n", peks.A);
 #endif
 	element_init_GT(temp, pairing);
-	std::cout << "G is initialized " << std::endl;
 	//std::cout << "*peks.first is " << peks->first << std::endl;
-	pairing_apply(temp, *Tw, *peks, pairing);
-    std::cout << "pairing_apply " << std::endl;
-	/* H2(temp) */
+	pairing_apply(temp, Tw, peks, pairing);
+    /* H2(temp) */
 	char *char_temp = (char*)malloc(sizeof(char)*element_length_in_bytes(temp));
 	char *hashed_temp = (char*)malloc(sizeof(char)*SHA512_DIGEST_LENGTH*2+1);
 	element_snprint(char_temp, element_length_in_bytes(temp), temp);
 	sha512(char_temp, element_length_in_bytes(temp), hashed_temp);
 	char *H2_lhs = (char*)malloc(sizeof(char)*(nlogP));
 	get_n_bits(hashed_temp, H2_lhs, nlogP);
-    std::cout << "H2 is produced " << std::endl;
-	/* Check for equality */
-//#if defined(DEBUG)
+    /* Check for equality */
+#if defined(DEBUG)
 	int i;
 	printf("lhs ");
 	for(i = 0; i < nlogP; i++)
@@ -168,19 +170,17 @@ int peksOpt::Test(element_t* g, element_t *h, element_t* peks, char* B, element_
 		printf("%c", B[i]);
 	printf("\n");
 	printf("i is %d ", i);
-//#endif
+#endif
 	int match;
 	if(!memcmp(H2_lhs, B, nlogP))
 		match = 1;
 	else
 		match = 0;
-    std::cout << "check match or not " << std::endl;
-	/* Free the memory */
+    /* Free the memory */
 	free(H2_lhs); H2_lhs = NULL;
-	free(B); B = NULL;
+	//free(B); B = NULL;
 	free(char_temp); char_temp = NULL;
 	free(hashed_temp); hashed_temp = NULL;
-	std::cout << "free memory " << std::endl;
 	//free(hashedW2); hashedW2 = NULL;
 
 	return match;
@@ -194,6 +194,13 @@ void peksOpt::set_B(char* addr_B)
 void peksOpt::set_peks(element_t interest_peks)
 {
     element_set(peks, interest_peks);
+}
+
+
+void peksOpt::setPubKey(element_t new_g, element_t new_h)
+{
+    element_set(new_g, g);
+    element_set(new_h, h);
 }
 
 char *peksOpt::getB()
