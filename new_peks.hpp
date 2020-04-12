@@ -12,8 +12,8 @@
 class peksOpt
 {
     public:
-        peksOpt();
-        ~peksOpt();
+        peksOpt() = default;
+        ~peksOpt() = default;
 
 
     private:
@@ -36,7 +36,7 @@ class peksOpt
 
         void peks_printf();
 
-        void init_pbc_param_pairing(pbc_param_t param, pairing_t pairing);
+        void init_pbc_param_pairing(pbc_param_t param, pairing_t *pairing);
 
         void KeyGen(pbc_param_t param, pairing_t pairing);
 

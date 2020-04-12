@@ -1,7 +1,7 @@
 #include "new_peks.hpp"
 #include <iostream>
 
-peksOpt::peksOpt()
+/*peksOpt::peksOpt()
 {
     //ctor
 }
@@ -11,6 +11,7 @@ peksOpt::~peksOpt()
     //dtor
 }
 
+*/
 void peksOpt::sha512(const char *word, int word_size, char hashed_word[SHA512_DIGEST_LENGTH*2+1])
 {
 	int i;
@@ -52,10 +53,16 @@ void peksOpt::key_printf()
 void peksOpt::peks_printf()
 {
 	element_printf("A %B\n", peks);
-	printf("B %s\n", B);
+        unsigned int i = 0;
+        std::cout << "B ";
+        while(B[i] != '\0')
+        {
+           printf("%c",B[i]);
+           i++;
+        }
 }
 
-void peksOpt::init_pbc_param_pairing(pbc_param_t param, pairing_t pairing)
+void peksOpt::init_pbc_param_pairing(pbc_param_t param, pairing_t *pairing)
 {
 	int rbits = 160;
 	int qbits = 512;
@@ -64,7 +71,7 @@ void peksOpt::init_pbc_param_pairing(pbc_param_t param, pairing_t pairing)
 	pbc_param_init_a_gen(param, rbits, qbits);
 
 	/* Initialize pairing */
-	pairing_init_pbc_param(pairing, param);
+	pairing_init_pbc_param(*pairing, param);
 #if defined(DEBUG)
 	printf("Symmetric %d\n", pairing_is_symmetric(pairing));
 #endif

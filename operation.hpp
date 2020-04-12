@@ -9,44 +9,50 @@
 #include "main_list.hpp"
 #include "new_peks.hpp"
 
+class peksOpt;
+
 class operation{
 
       public:
 
            operation();
            ~operation();
-           entryList* trapdoor_opt(std::string *uri, std::unique_ptr <peksOpt> &p_opt);
-           std::string peks(std::string *uri, std::unique_ptr <peksOpt> &p_opt);
-           std::string getComponent(std::string *uri, size_t iComponentStart, size_t iComponentEnd);
-           std::string getEntry(entryList* e_list);
-           void key_gen(std::unique_ptr <peksOpt> &p_opt);
-           void h1_w(const char *W1, std::unique_ptr <peksOpt> &p_opt);
-           entryList* createPeksList(std::string *uri);
 
-     private:
+
+      private:
           entryList* entry_list_outer = new entryList();
           size_t iComponentStart = 0;
           size_t iComponentEnd = 0;
-          std::string str;
           std::list<entryList*>::iterator inner_it;
           int i = 0;
           /* Order of group G1 and G2 */
           double P;
-
-          /* Apriv = α and Apub = [g, h=g^α] */
-          //key key;
-
+          pairing_t pairing;
+          pbc_param_t param;
           /* Trapdoor */
           element_t Tw;
 
           /* H1(W) */
           element_t H1_W;
-          pbc_param_t param;
           FILE *fptr;
-          pairing_t pairing;
-          std::string peks_str;
+          std::string peks_str = "";
+          std::string str = "";
           int len;
 
+      public:
+           entryList* trapdoor_opt(std::string *uri, std::unique_ptr <peksOpt> &p_opt, pbc_param_t *param);
+           std::string peks(std::string *uri, std::unique_ptr <peksOpt> &p_opt, pbc_param_t param);
+           std::string getComponent(std::string *uri, size_t iComponentStart, size_t iComponentEnd);
+           std::string getEntry(entryList* e_list);
+           void key_gen(std::unique_ptr <peksOpt> &p_opt);
+           void h1_w(const char *W1, std::unique_ptr <peksOpt> &p_opt);
+           void retriveKey(std::string *uri, std::unique_ptr <peksOpt> &p_opt);
+           entryList* createPeksList(std::string *uri);
+           void encode(element_t* in_data);
+           void encode_B(std::unique_ptr <peksOpt> &p_opt, unsigned int nlogP);
+           element_t* get_H1_W();
+           void set_H1_W(element_t *tmp);
+           void init_pbc_param_pairing(std::unique_ptr <peksOpt> &p_opt);
 
 };
 
